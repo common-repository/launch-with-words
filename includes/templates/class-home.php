@@ -1,0 +1,100 @@
+<?php
+/**
+ * Register the Home tab and any sub-tabs.
+ *
+ * @package Launch With Words
+ */
+
+namespace LWW\Includes\Templates;
+
+use LWW\Includes\Functions as Functions;
+
+/**
+ * Output the home tab and content.
+ */
+class Home {
+	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		add_filter( 'lww_admin_tabs', array( $this, 'add_home_tab' ), 1, 1 );
+		add_filter( 'lww_admin_sub_tabs', array( $this, 'add_home_main_sub_tab' ), 1, 3 );
+		add_filter( 'lww_output_home', array( $this, 'output_home_content' ), 1, 3 );
+	}
+
+	/**
+	 * Add the home tab and callback actions.
+	 *
+	 * @param array $tabs Array of tabs.
+	 *
+	 * @return array of tabs.
+	 */
+	public function add_home_tab( $tabs ) {
+		$tabs[] = array(
+			'get'    => 'home',
+			'action' => 'lww_output_home',
+			'url'    => Functions::get_settings_url( 'home' ),
+			'label'  => _x( 'Settings', 'Tab label as Home', 'launch-with-words' ),
+			'icon'   => 'home-heart',
+		);
+		return $tabs;
+	}
+
+	/**
+	 * Add the home main tab and callback actions.
+	 *
+	 * @param array  $tabs        Array of tabs.
+	 * @param string $current_tab The current tab selected.
+	 * @param string $sub_tab     The current sub-tab selected.
+	 *
+	 * @return array of tabs.
+	 */
+	public function add_home_main_sub_tab( $tabs, $current_tab, $sub_tab ) {
+		return $tabs;
+	}
+
+	/**
+	 * Begin Home routing for the various outputs.
+	 */
+	public function output_home_content( $tab, $sub_tab = '' ) {
+		if ( 'home' === $tab ) {
+			if ( empty( $sub_tab ) || 'home' === $sub_tab ) {
+				?>
+				<div id="lww-home-options">
+					<div class="lww-admin-container">
+						<h2 class="lww-desc"><?php esc_html_e( 'Welcome to Launch With Words', 'launch-with-words' ); ?></h2>
+						<div class="notice-info notice info">
+							<p>
+								<strong>
+									<a href="https://bridgetwillard.com/launch-with-words-premium/" target="_blank" rel="noopener">
+										<?php
+										esc_html_e( 'Download a free Starter Pack', 'launch-with-words' );
+										?>
+									</a>
+								</strong>
+							</p>
+						</div>
+						<h4><strong><?php esc_html_e( 'Your clients want to blog.', 'launch-with-words' ); ?> <em><?php esc_html_e( 'But they need ideas to write about.', 'launch-with-words' ); ?></em> <?php esc_html_e( 'Let us show you how.', 'launch-with-words' ); ?></h4>
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/Kusey3jDD1o" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						<blockquote>
+							Launch With Words is a product that combines the features of a business coach with blogging prompts to encourage you to publish once a month. Follow the prompts. Publish. Easy!
+							<span>Bridget Willard</span>
+						</blockquote>
+					</div>
+					<div class="lww-admin-container lww-admin-box">
+						<h2 class="lww-desc"><?php esc_html_e( 'Launch With Words Information', 'launch-with-words' ); ?></h2>
+						<hr />
+						<ul>
+							<li><a href="https://wordpress.org/plugins/launch-with-words/" target="_blank" rel="noopener"><?php esc_html_e( 'Version:', 'launch-with-words' ); ?> <?php echo esc_html( LWW_VERSION ); ?></a></li>
+							<li><?php esc_html_e( 'Like Launch With Words?', 'launch-with-words' ); ?> <a href="https://wordpress.org/support/plugin/launch-with-words/reviews/" target="_blank" rel="noopener"><?php esc_html_e( 'Please rate us on the WordPress plugin directory.', 'launch-with-words' ); ?></a>
+							<li><?php esc_html_e( 'Need help?', 'launch-with-words' ); ?> <a href="https://wordpress.org/support/plugin/launch-with-words/" target="_blank" rel="noopener"><?php esc_html_e( 'Leave us a support request.', 'launch-with-words' ); ?></a></li>
+							<li><?php esc_html_e( 'Content Packs:', 'launch-with-words' ); ?> <a href="https://bridgetwillard.com/downloads/launch-with-words-starter-content-pack/" target="_blank" rel="noopener"><?php esc_html_e( 'Download a free starter pack.', 'launch-with-words' ); ?></a></li>
+							<li><?php esc_html_e( 'Podcast:', 'launch-with-words' ); ?> <a href="https://launch-with-words.castos.com/" target="_blank" rel="noopener"><?php esc_html_e( 'Listen to the Launch With Words Podcast', 'launch-with-words' ); ?></li>							
+						</ul>
+					</div>
+				</div>
+				<?php
+			}
+		}
+	}
+}
